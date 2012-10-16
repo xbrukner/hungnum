@@ -2,17 +2,56 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>HungNum - simple tool to help learning Hungarian numbers</title>
+	<link rel="stylesheet" href="jquery-ui.css">
 	<script type="text/javascript" src="convert.js"></script>
 	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="jquery-ui.js"></script>
 	<script type="text/javascript" src="index.js"></script>
+	<style type="text/css">
+		.correct {
+			background-color: green;
+		}
+		.wrong {
+			background-color: red;
+		}
+	</style>
 </head>
 <body>
-	<form id="form" action="#">
-		<div>
-			<input type="text" id="number">
-			<input type="button" id="convert" value="Convert!"> <br>
-			<span id="result"></span>
-		</div>
-	</form>
+<div id="tabs">
+	<ul>
+		<li><a href="#numberToWord">1 &rarr; One</a></li>
+		<li><a href="#wordToNumber">One &rarr; 1</a></li>
+		<li><a href="#convert">Convert anything</a></li>
+	</ul>
+	<div id="numberToWord">
+		Number to Word
+		<input type="button" id="n-generate" value="Generate!">
+		<form id="n-form" action="#">
+			<table>
+			</table>
+		</form>
+	</div>
+	<div id="wordToNumber">
+		Word to Number
+		<input type="button" id="w-generate" value="Generate!">
+		<form id="w-form" action="#">
+			<table>
+			</table>
+		</form>
+	</div>
+	<div id="convert">
+		Simple convert tool	
+		<form id="c-form" action="#">
+			<table>
+				<tr>
+					<td><input type="text" id="c-number">
+					<input type="submit" id="c-convert" value="Convert!"></td>
+					<td> &rarr; </td>
+					<td id="c-result"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
 </body>
 </html>
