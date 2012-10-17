@@ -37,7 +37,8 @@ function numToString(num) {
 	while (num) {
 		subres = underThousand(num % 1000);
 		if (subres) {
-			suffix = "-" + subres + (magnitude >= 0 ? more[magnitude] : "") + suffix;
+			suffix = (magnitude == -1 && (num % 100000) <= 2000 ? "" : "-")
+				+ subres + (magnitude >= 0 ? more[magnitude] : "") + suffix;
 		}
 		magnitude ++;
 		num = parseInt(num / 1000);
