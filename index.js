@@ -40,7 +40,7 @@ function nToW() {
 	var limit = 10000;
 	
 	var data = generateData(num, limit);
-	generateHTML('n-', data.numbers, data.texts);	
+	generateHTML('n-', data.numbers, data.texts, true);	
 }
 
 //Word to number
@@ -52,7 +52,7 @@ function wToN() {
 	for (var i = 0; i < data.texts.length; i ++) {
 		data.texts[i] = data.texts[i][Math.floor(Math.random() * data.texts[i].length)];
 	}
-	generateHTML('w-', data.texts, data.numbers);	
+	generateHTML('w-', data.texts, data.numbers, false);	
 }
 
 function addLetter(id, letter) {
@@ -78,7 +78,7 @@ function showToolbox(id) {
 	};
 }
 
-function generateHTML(prefix, questions, answers) {
+function generateHTML(prefix, questions, answers, toolbox) {
 	$('#'+prefix+'form table').children().remove();
 	$('#'+prefix+'form').off('submit');
 	
@@ -90,8 +90,8 @@ function generateHTML(prefix, questions, answers) {
 				$('<td>').text(questions[i])
 			).append(
 				$('<td>').append(
-					$('<input>').attr('id', id).click(showToolbox(id))
-				).append( generateToolbox(id) )
+					$('<input>').attr('id', id).click( (toolbox ? showToolbox(id) : $.noop ) )
+				).append( (toolbox ? generateToolbox(id) : "") )
 			)
 		);
 	}
@@ -99,7 +99,7 @@ function generateHTML(prefix, questions, answers) {
 	//Check function in closure
 	(function() {
 		var check = function () {
-			$('.toolbox').removeClass('toolbox-active'); //Hide toolboxes
+			if (toolbox) $('.toolbox').removeClass('toolbox-active'); //Hide toolboxes
 			for (var i = 0; i < answers.length; i ++) {
 				var answer = $('#'+prefix+'answer-'+i).val();
 				var correct = (typeof answers[i] === 'object' ? 
