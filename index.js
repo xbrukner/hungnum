@@ -1,6 +1,6 @@
 //Convert function
 function convert() {
-	$('#c-result').html(numToString($('#c-number').val()));
+	$('#c-result').html( numToString($('#c-number').val()).join(" / ") );
 	return false;
 }
 
@@ -37,7 +37,7 @@ function generateData(num, limit) {
 //Number to word
 function nToW() {
 	var num = 5;
-	var limit = 10;
+	var limit = 10000;
 	
 	var data = generateData(num, limit);
 	generateHTML('n-', data.numbers, data.texts);	
@@ -46,9 +46,12 @@ function nToW() {
 //Word to number
 function wToN() {
 	var num = 5;
-	var limit = 10;
+	var limit = 10000;
 	
 	var data = generateData(num, limit);
+	for (var i = 0; i < data.texts.length; i ++) {
+		data.texts[i] = data.texts[i][Math.floor(Math.random() * data.texts[i].length)];
+	}
 	generateHTML('w-', data.texts, data.numbers);	
 }
 
@@ -76,14 +79,26 @@ function generateHTML(prefix, questions, answers) {
 		var check = function () {
 			for (var i = 0; i < answers.length; i ++) {
 				var answer = $('#'+prefix+'answer-'+i).val();
-				if (answer == answers[i]) {
+				var correct = (typeof answers[i] === 'object' ? 
+					answers[i].indexOf(answer) > -1 : answers[i] == answer);
+				if (correct) {
 						rep = $('<span>').addClass('correct').text(answer)
-					
 				}
 				else {
-					rep = $('<span>').addClass('wrong').html((answer ? answer : '&nbsp;') +'<br>').after(
+					rep = $('<span>').addClass('wrong').html((answer ? answer : '&nbsp;') +'<br>');
+					if (typeof answers[i] == 'string') {
+						rep.after(
 							$('<span>').addClass('correct').text(answers[i])
 						);
+					}
+					else {
+						for (var j = 0; j < answers[i].length; j ++) {
+							if (j) rep.after( $('<span>').text(' / ') );
+							rep.after(
+								$('<span>').addClass('correct').text(answers[i][j])
+							);
+						}
+					}
 				}
 				$('#'+prefix+'answer-'+i).replaceWith(rep);
 			}
