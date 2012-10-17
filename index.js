@@ -55,7 +55,28 @@ function wToN() {
 	generateHTML('w-', data.texts, data.numbers);	
 }
 
+function addLetter(id, letter) {
+	return function() { 
+		$("#" + id).val( $("#" + id).val() + letter ).focus(); 
+	} 
+}
 
+function generateToolbox(id) {
+	var res = $('<div>').attr('id', id + '-toolbox').addClass('toolbox');
+	letters = "áéóúöő".split('');
+	for (var i = 0; i < letters.length; i ++) {
+		res.append( $('<span>').addClass('letter')
+			.text(letters[i]).click(addLetter(id, letters[i])) );
+	}
+	return res;
+}
+
+function showToolbox(id) {
+	return function () {
+		$('.toolbox').removeClass('toolbox-active');
+		$("#" + id + "-toolbox").addClass('toolbox-active');
+	};
+}
 
 function generateHTML(prefix, questions, answers) {
 	$('#'+prefix+'form table').children().remove();
@@ -63,13 +84,14 @@ function generateHTML(prefix, questions, answers) {
 	
 	//Generate questions
 	for (var i = 0; i < questions.length; i ++) {
+		var id = prefix+'answer-'+i;
 		$('#'+prefix+'form table').append(
 			$('<tr>').append(
 				$('<td>').text(questions[i])
 			).append(
 				$('<td>').append(
-					$('<input>').attr('id', prefix+'answer-'+i)
-				)
+					$('<input>').attr('id', id).click(showToolbox(id))
+				).append( generateToolbox(id) )
 			)
 		);
 	}
@@ -77,6 +99,7 @@ function generateHTML(prefix, questions, answers) {
 	//Check function in closure
 	(function() {
 		var check = function () {
+			$('.toolbox').removeClass('toolbox-active'); //Hide toolboxes
 			for (var i = 0; i < answers.length; i ++) {
 				var answer = $('#'+prefix+'answer-'+i).val();
 				var correct = (typeof answers[i] === 'object' ? 
@@ -86,18 +109,18 @@ function generateHTML(prefix, questions, answers) {
 				}
 				else {
 					rep = $('<span>').addClass('wrong').html((answer ? answer : '&nbsp;') +'<br>');
-					if (typeof answers[i] == 'string') {
-						rep.after(
-							$('<span>').addClass('correct').text(answers[i])
-						);
-					}
-					else {
+					if (typeof answers[i] === 'object') {
 						for (var j = 0; j < answers[i].length; j ++) {
 							if (j) rep.after( $('<span>').text(' / ') );
 							rep.after(
 								$('<span>').addClass('correct').text(answers[i][j])
 							);
 						}
+					}
+					else {
+						rep.after(
+							$('<span>').addClass('correct').text(answers[i])
+						);
 					}
 				}
 				$('#'+prefix+'answer-'+i).replaceWith(rep);
