@@ -23,21 +23,49 @@ function generateRandom(num, limit) {
 
 //Generate random numbers with answers
 function generateData(num, limit) {
-	var rand = generateRandom(num, limit);
-	var texts = [];
-	for (var i = 0; i < rand.length; i ++) {
-		texts.push(numToString(rand[i]));
+	if (typeof limit === 'number') {
+		var rand = generateRandom(num, limit);
+		var texts = [];
+		for (var i = 0; i < rand.length; i ++) {
+			texts.push(numToString(rand[i]));
+		}
+		return {
+			numbers: rand,
+			texts: texts
+		};
 	}
-	return {
-		numbers: rand,
-		texts: texts
-	};
+	else {
+		var res = false;
+		for (var i = 0; i < num; i ++) {
+			var subRes = generateData(1, limit[Math.floor(Math.random() * limit.length)]);
+			if (!res) res = subRes;
+			else {
+				res.numbers.push(subRes.numbers[0]);
+				res.texts.push(subRes.texts[0]);
+			}
+		}
+		return res;
+	}
+}
+
+function generateLimit(id) {
+	var selected = parseInt($("#" + id + " input:checked").attr('id').substr(id.length));
+	if (!isNaN(selected)) { //Selected number limit
+		return selected;
+	}
+	//Selected mix
+	var all = $("#" + id + " input"), res = [];
+	for (var i = 0; i < all.length; i ++) {
+		var limit = parseInt($(all[i]).attr("id").substr(id.length));
+		if (!isNaN(limit)) res.push(limit);
+	}
+	return res;
 }
 
 //Number to word
 function nToW() {
 	var num = 5;
-	var limit = 10000;
+	var limit = generateLimit("n-limit");
 	
 	var data = generateData(num, limit);
 	generateHTML('n-', data.numbers, data.texts, true);	
@@ -145,9 +173,11 @@ $(function() {
 	
 	//Init number to word
 	$('#n-generate').click(nToW);
+	$('#n-limit').buttonset();
 	
 	//Init word to number
 	$('#w-generate').click(wToN);
+	$('#w-limit').buttonset();
 	
 	//Convert init
 	$('#c-form').submit(convert);

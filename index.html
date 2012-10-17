@@ -32,6 +32,13 @@
 		<li><a href="#convert">Convert anything</a></li>
 	</ul>
 	<div id="numberToWord">
+		<div id="n-limit">
+			<input type="radio" id="n-limit10" name="n-limit" checked="checked"> <label for="n-limit10"> &lt; 10 </label>
+			<input type="radio" id="n-limit100" name="n-limit"> <label for="n-limit100"> &lt; 100 </label>
+			<input type="radio" id="n-limit1000" name="n-limit"> <label for="n-limit1000"> &lt; 1,000 </label>
+			<input type="radio" id="n-limit10000" name="n-limit"> <label for="n-limit10000"> &lt; 10,000 </label>
+			<input type="radio" id="n-limitmixed" name="n-limit"> <label for="n-limitmixed"> mixed </label>
+		</div>
 		Number to Word
 		<input type="button" id="n-generate" value="Generate!">
 		<form id="n-form" action="#">
@@ -40,6 +47,13 @@
 		</form>
 	</div>
 	<div id="wordToNumber">
+		<div id="w-limit">
+			<input type="radio" id="w-limit10" name="w-limit" checked="checked"> <label for="w-limit10"> &lt; 10 </label>
+			<input type="radio" id="w-limit100" name="w-limit"> <label for="w-limit100"> &lt; 100 </label>
+			<input type="radio" id="w-limit1000" name="w-limit"> <label for="w-limit1000"> &lt; 1,000 </label>
+			<input type="radio" id="w-limit10000" name="w-limit"> <label for="w-limit10000"> &lt; 10,000 </label>
+			<input type="radio" id="w-limitmixed" name="w-limit"> <label for="w-limitmixed"> mixed </label>
+		</div>
 		Word to Number
 		<input type="button" id="w-generate" value="Generate!">
 		<form id="w-form" action="#">
