@@ -74,7 +74,7 @@ function nToW() {
 //Word to number
 function wToN() {
 	var num = 5;
-	var limit = 10000;
+	var limit = generateLimit("w-limit");
 	
 	var data = generateData(num, limit);
 	for (var i = 0; i < data.texts.length; i ++) {
@@ -106,6 +106,33 @@ function showToolbox(id) {
 	};
 }
 
+function checkIcon() {
+	return $('<span>').addClass('ui-icon ui-icon-check icon');
+}
+function wrongIcon() {
+	return $('<span>').addClass('ui-icon ui-icon-alert icon');
+}
+function rightIcon() {
+	return $('<span>').addClass('ui-icon ui-icon-info icon');
+}
+
+function addCorrect(answer) {
+	return $('<div>').addClass('ui-state-alert ui-corner-all box').append(
+		$('<div>').append( checkIcon() ).append(answer)
+	);
+}
+
+function addWrong(answer, correct) {
+	return $('<div>').addClass('ui-state-error ui-corner-all box').append (
+		$('<div>').append( wrongIcon() ).append( (answer ? answer : '&nbsp;') )
+	).after( $('<div>').addClass('ui-state-alert ui-corner-all box').append(
+			$('<div>').append( rightIcon() ).append( 
+				(typeof correct === 'object' ? correct.join(' / ') : correct)
+			)
+		)
+	);
+}
+
 function generateHTML(prefix, questions, answers, toolbox) {
 	$('#'+prefix+'form table').children().remove();
 	$('#'+prefix+'form').off('submit');
@@ -133,23 +160,10 @@ function generateHTML(prefix, questions, answers, toolbox) {
 				var correct = (typeof answers[i] === 'object' ? 
 					answers[i].indexOf(answer) > -1 : answers[i] == answer);
 				if (correct) {
-						rep = $('<span>').addClass('correct').text(answer)
+					rep = addCorrect(answer);
 				}
 				else {
-					rep = $('<span>').addClass('wrong').html((answer ? answer : '&nbsp;') +'<br>');
-					if (typeof answers[i] === 'object') {
-						for (var j = 0; j < answers[i].length; j ++) {
-							if (j) rep.after( $('<span>').text(' / ') );
-							rep.after(
-								$('<span>').addClass('correct').text(answers[i][j])
-							);
-						}
-					}
-					else {
-						rep.after(
-							$('<span>').addClass('correct').text(answers[i])
-						);
-					}
+					rep = addWrong(answer, answers[i]);
 				}
 				$('#'+prefix+'answer-'+i).replaceWith(rep);
 			}
