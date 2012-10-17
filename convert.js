@@ -1,4 +1,4 @@
-var single = ["nulla" /* never used */, ["egy", ""], ["kettö", "két"], "három", "négy", "öt", "hat", "hét", "nyolc", "kilenc"]; //0 -> 9
+var single = ["nulla" /* never used */, ["egy", ""], ["kettő", "két"], "három", "négy", "öt", "hat", "hét", "nyolc", "kilenc"]; //0 -> 9
 var tens = ["tíz", "tizen", "húsz", "huszon", "harminc", "harminc", "negyven", "negyven", "ötven", "ötven",
  "hatvan", "hatvan", "hetven", "hetven", "nyolcvan", "nyolcvan", "kilencven", "kilencven"]; //10, 10+x -> 90, 90+x
 var hundred = "száz";
