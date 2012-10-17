@@ -20,7 +20,9 @@
 		.toolbox-active {
 			position: absolute;
 			display: block;
-			background-color: yellow;
+		}
+		.letter span {
+			padding: 0.3em 0.5em !important;
 		}
 		.icon {
 			float: left;
@@ -28,6 +30,26 @@
 		}
 		.box {
 			padding: 0 .7em;
+		}
+		.box-convert {
+			padding: 0;
+			font: normal normal 700 1.7em Arial;
+		}
+		.box-convert .icon {
+			margin-top: 0.4em;
+		}
+		td {
+			vertical-align: top;
+		}
+		td.rarr {
+			vertical-align: text-top;
+			font: normal normal 700 1.7em Arial;
+		}
+		h3, .limit-selector {
+			margin: 0 0 .5em 0;
+		}
+		.answer-sheet {
+			margin: .5em 0;
 		}
 	</style>
 </head>
@@ -39,43 +61,43 @@
 		<li><a href="#convert">Convert anything</a></li>
 	</ul>
 	<div id="numberToWord">
-		<div id="n-limit">
+		<h3>Number to Word</h3>
+		<div id="n-limit" class="limit-selector">
 			<input type="radio" id="n-limit10" name="n-limit" checked="checked"> <label for="n-limit10"> &lt; 10 </label>
 			<input type="radio" id="n-limit100" name="n-limit"> <label for="n-limit100"> &lt; 100 </label>
 			<input type="radio" id="n-limit1000" name="n-limit"> <label for="n-limit1000"> &lt; 1,000 </label>
 			<input type="radio" id="n-limit10000" name="n-limit"> <label for="n-limit10000"> &lt; 10,000 </label>
 			<input type="radio" id="n-limitmixed" name="n-limit"> <label for="n-limitmixed"> mixed </label>
 		</div>
-		Number to Word
 		<input type="button" id="n-generate" value="Generate!">
 		<form id="n-form" action="#">
-			<table>
+			<table class="answer-sheet">
 			</table>
 		</form>
 	</div>
 	<div id="wordToNumber">
-		<div id="w-limit">
+		<h3>Word to Number</h3>
+		<div id="w-limit" class="limit-selector">
 			<input type="radio" id="w-limit10" name="w-limit" checked="checked"> <label for="w-limit10"> &lt; 10 </label>
 			<input type="radio" id="w-limit100" name="w-limit"> <label for="w-limit100"> &lt; 100 </label>
 			<input type="radio" id="w-limit1000" name="w-limit"> <label for="w-limit1000"> &lt; 1,000 </label>
 			<input type="radio" id="w-limit10000" name="w-limit"> <label for="w-limit10000"> &lt; 10,000 </label>
 			<input type="radio" id="w-limitmixed" name="w-limit"> <label for="w-limitmixed"> mixed </label>
 		</div>
-		Word to Number
 		<input type="button" id="w-generate" value="Generate!">
 		<form id="w-form" action="#">
-			<table>
+			<table class="answer-sheet">
 			</table>
 		</form>
 	</div>
 	<div id="convert">
-		Simple convert tool	
+		<h3>Simple convert tool</h3>
 		<form id="c-form" action="#">
 			<table>
 				<tr>
 					<td><input type="text" id="c-number">
 					<input type="submit" id="c-convert" value="Convert!"></td>
-					<td> &rarr; </td>
+					<td class="rarr"> &rarr; </td>
 					<td id="c-result"></td>
 				</tr>
 			</table>

@@ -1,6 +1,12 @@
 //Convert function
 function convert() {
-	$('#c-result').html( numToString($('#c-number').val()).join(" / ") );
+	$('#c-result').html(
+		$('<div>').addClass('ui-state-alert ui-corner-all box-convert').append(
+			$('<div>').append( rightIcon() ).append( 
+				numToString($('#c-number').val()).join(" / ")
+			)
+		)
+	);
 	return false;
 }
 
@@ -93,9 +99,10 @@ function generateToolbox(id) {
 	var res = $('<div>').attr('id', id + '-toolbox').addClass('toolbox');
 	letters = "áéóúöő".split('');
 	for (var i = 0; i < letters.length; i ++) {
-		res.append( $('<span>').addClass('letter')
-			.text(letters[i]).click(addLetter(id, letters[i])) );
+		res.append( $('<span>').text(letters[i]).addClass('letter')
+			.button().click(addLetter(id, letters[i])) );
 	}
+	$(res).buttonset();
 	return res;
 }
 
@@ -145,7 +152,9 @@ function generateHTML(prefix, questions, answers, toolbox) {
 				$('<td>').text(questions[i])
 			).append(
 				$('<td>').append(
-					$('<input>').attr('id', id).click( (toolbox ? showToolbox(id) : $.noop ) )
+					$('<input>').attr('id', id)
+						.click( (toolbox ? showToolbox(id) : $.noop ) )
+						.focus( (toolbox ? showToolbox(id) : $.noop ) )
 				).append( (toolbox ? generateToolbox(id) : "") )
 			)
 		);
@@ -173,7 +182,7 @@ function generateHTML(prefix, questions, answers, toolbox) {
 		$('#'+prefix+'form table').append(
 			$('<tr>').append(
 				$('<td>').append(
-					$('<input type="submit">').val('Check!')
+					$('<input type="submit">').val('Check!').button()
 				)
 			)
 		);
@@ -186,15 +195,15 @@ $(function() {
 	$("#tabs").tabs();
 	
 	//Init number to word
-	$('#n-generate').click(nToW);
+	$('#n-generate').click(nToW).button();
 	$('#n-limit').buttonset();
 	
 	//Init word to number
-	$('#w-generate').click(wToN);
+	$('#w-generate').click(wToN).button();
 	$('#w-limit').buttonset();
 	
 	//Convert init
 	$('#c-form').submit(convert);
-	$('#c-convert').click(convert);
+	$('#c-convert').click(convert).button();
 	
 });

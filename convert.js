@@ -26,7 +26,7 @@ function underThousand(num, notLast) { //notLast - not last digits
 	var res = [''], tmp, toAdd;
 	if (num >= 100) { //Hundreds
 		tmp = parseInt(num / 100);
-		if (tmp > 1) res = addToAll(res, single[tmp]);
+		res = addToAll(res, single[tmp]);
 		res = addToAll(res, hundred); //Add all options
 	}
 	tmp = num % 100;
